@@ -3,7 +3,7 @@
     <h1>Get Recommendation</h1>
     <div class="form-group">
       <button @click="getRecommendation">Get Recommendation</button>
-      <input type="text" id="recommendation" v-model="recommendation">
+      <input type="text" id="recommendation" v-model="recommendation" readonly>
     </div>
     <div class="form-group">
       <label for="locationSelect">Select Location:</label>

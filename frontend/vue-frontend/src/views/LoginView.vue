@@ -32,7 +32,6 @@ export default {
     methods: {
       async login() {
         try{
-          console.log(this.username)
           await axios.post('http://127.0.0.1:5000/login', {
             username: this.username,
           });
@@ -42,7 +41,7 @@ export default {
           this.$router.push("/reviews");
         } catch (error) {
           this.error = 'Invalid credentials. Please try again.';
-          console.log(error)
+          console.error(error)
         }
       }
     }
