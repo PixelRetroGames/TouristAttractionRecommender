@@ -7,9 +7,9 @@
     </div>
     <div class="form-group">
       <label for="locationSelect">Select Location:</label>
-      <select id="locationSelect" v-model="selectedLocation">
+      <select id="locationSelect" v-model="selectedLocation" @change="handleChange">
         <option v-for="(location, index) in locations" :key="index" :value="location">
-          {{ location.name }}
+          {{ location }}
         </option>
       </select>
     </div>
@@ -27,6 +27,10 @@
 
     <div class="form-group">
       <button @click="postReview">Post Review</button>
+    </div>
+
+    <div class="form-group">
+      <button @click="logout">Logout</button>
     </div>
   </div>
 </template>
@@ -48,6 +52,11 @@
       this.fetchLocations(); // Call the function to fetch locations when the component is mounted
     },
     methods: {
+      handleChange(e) {
+        if(e.target.options.selectedIndex > -1) {
+            this.selectedLocation = this.locations[e.target.options.selectedIndex]
+        }
+      },
       async fetchLocations() {
         try {
           const response = await axios.get('http://127.0.0.1:5000/locations'); // Make a GET request to /locations using Axios
@@ -65,11 +74,16 @@
         }
       },
       async postReview() {
+        console.log(this.selectedLocation)
         await axios.post('http://127.0.0.1:5000/reviews', {
           username: localStorage.getItem('currentUser'),
-          location: this.selectedLocation.name,
+          location: this.selectedLocation,
           rating: this.rating
         });
+      },
+      async logout() {
+        axios.get('http://127.0.0.1:5000/logout');
+        this.$router.push("/");
       }
     }
   };
